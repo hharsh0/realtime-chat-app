@@ -1,2 +1,6 @@
 # basic-chat-app
-backend made using socket.io, use npm install to install all dependencies.
+backend made using socket.io.
+
+### Hint
+use npm install to install all dependencies.
+
