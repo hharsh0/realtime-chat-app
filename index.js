@@ -8,7 +8,6 @@ const io = new Server(server);
 
 app.use(express.static(__dirname + '/css'));
 
-
 const port = process.env.PORT || 3000
 
 const users = {}
@@ -44,3 +43,4 @@ io.on('connection', (socket) => {
 server.listen(port, () => {
   console.log('listening on port:3000');
 });
+

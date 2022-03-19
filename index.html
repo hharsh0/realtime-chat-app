@@ -24,7 +24,9 @@
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     if (input.value) {
-      text = `${name}: ` + input.value
+      const event = new Date();
+      var time = event.toLocaleTimeString('en-US')
+      text = `${name}(${time}): ` + input.value
       socket.emit('chat message', text);
       input.value = '';
     }
