@@ -8,5 +8,5 @@ To check the functionality, open the link in two seperate tabs or device and try
 If you refresh the messages will get deleted, no feature to save it as of now.
 
 ### Hint
-use npm install to install all dependencies.
+if you are cloning, use npm install to install all dependencies.
 
