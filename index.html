@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chat</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>  
+    <h1>Welcome to the chat</h1>
+    <div class="container">
+  </div>
+  <form id="send-container" action="">
+    <input id="input" class="" autocomplete="off" />
+    <button class="btn btn-primary">Send</button>
+  </form>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+  var audio = new Audio('audio.mp3')
+
+  const form = document.getElementById('send-container');
+  const messageInput = document.getElementById('input');
+  const messageContainer = document.querySelector('.container')
+
+const append = (message, position)=>{
+    const messageElement = document.createElement('div');
+    messageElement.innerText = message;
+    messageElement.classList.add('message');
+    messageElement.classList.add(position)
+    messageContainer.append(messageElement);
+    messageContainer.scrollTop = messageContainer.scrollHeight;
+    if(position=='left'){
+      audio.play()
+    }
+    
+}
+
+
+form.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    if (messageInput.value) {
+      const message = messageInput.value;
+    append(`You: ${message}`, 'right');
+    socket.emit('send', message);
+    messageInput.value = '';
+    }   
+})
+
+const name = prompt("Enter your name to join the Chat")
+socket.emit('new-user-joined', name)
+
+socket.on('user-joined', name=>{
+    append(`${name} joined the chat`, 'left');
+})
+
+socket.on('receive', data=>{
+    append(`${data.name }: ${data.message}`, 'left')
+})
+
+socket.on('left', name=>{
+    append(`${name } left the chat`, 'left');
+})
+
+    </script>
+  </body>
+</html>
+
+<!-- window.scrollTo(0, document.body.scrollHeight); -->
