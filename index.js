@@ -16,29 +16,21 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
-io.on('connection', (socket) => {
-    console.log('a user connected');
-    socket.on('disconnect', () => {
-      console.log('user disconnected');
-    });
+io.on('connection', socket=>{
+  socket.on('new-user-joined', name=>{
+      users[socket.id] = name;
+      socket.broadcast.emit('user-joined', name);
   });
 
-io.on('connection', (socket) => {
-
-  socket.on('login', name=> io.emit('chat message', `${name} joined the chat`))
-                          // Chat message
-  socket.on('chat message', (msg) => {
-    console.log('message: ' + msg); // to add given message on console
-    io.emit('chat message', msg);
+  socket.on('send', message=>{
+      socket.broadcast.emit('receive', {message: message, name: users[socket.id]})
   });
-                           // Connection/disconnect message
-  socket.on('disconnect', function() {
-    io.emit('chat message', `some user disconnected`);
+
+  socket.on('disconnect', message=>{
+     socket.broadcast.emit('left', users[socket.id]);
+     delete users[socket.id];
  });
-
- console.log(`socket id : ${socket.id}`)
-});
-
+})
 
 server.listen(port, () => {
   console.log('listening on port:3000');
