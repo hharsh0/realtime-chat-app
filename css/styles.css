@@ -10,6 +10,9 @@ input{
     width: 80%;
     border-radius: 50px;
 }
+input, select {
+    font-size: 25px;
+}
 
   h1 {
     margin-top: 12px;
@@ -65,6 +68,10 @@ input{
     flex-grow: 1;
     margin-top: 10px;
   }
+
+  div {
+    word-wrap: break-word;
+}
 
 
   
